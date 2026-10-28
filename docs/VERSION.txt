@@ -1,0 +1,4 @@
+WESLA WHOLESALE V1.0.1
+Updated: 2026-10-27
+Purpose: local/LAN prototype; not production-certified.
+Base: uploaded WESLA_V1.0.0 with root-path fixes, SKU-only product locks, item-level return adjustments, shipment-fee ledger, and expanded tests.
