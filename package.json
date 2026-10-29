@@ -2,14 +2,15 @@
   "name": "wesla-wholesale",
   "version": "1.0.1",
   "private": true,
-  "description": "وِصلة جملة - منصة B2B للجملة بالسوق الليبي",
+  "description": "\u0648\u0650\u0635\u0644\u0629 \u062c\u0645\u0644\u0629 - \u0645\u0646\u0635\u0629 B2B \u0644\u0644\u062c\u0645\u0644\u0629 \u0628\u0627\u0644\u0633\u0648\u0642 \u0627\u0644\u0644\u064a\u0628\u064a",
   "scripts": {
-    "start": "node backend/server.js",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "test": "node --check backend/server.js && node --check scripts/restore-backup.js && node tests/check-frontend.js && node --test tests/integration.test.js tests/regression-v49.test.js tests/restore-backup.test.js",
-    "dev": "node backend/server.js",
     "audit": "node tests/audit-harness.js"
   },
   "engines": {
-    "node": ">=22.13.0"
+    "node": ">=18.17.0"
   }
 }
