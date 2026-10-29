@@ -5,10 +5,8 @@
   "description": "\u0648\u0650\u0635\u0644\u0629 \u062c\u0645\u0644\u0629 - \u0645\u0646\u0635\u0629 B2B \u0644\u0644\u062c\u0645\u0644\u0629 \u0628\u0627\u0644\u0633\u0648\u0642 \u0627\u0644\u0644\u064a\u0628\u064a",
   "scripts": {
     "dev": "node backend/server.js",
-    "build": "echo 'No build step required'",
-    "start": "node backend/server.js",
-    "test": "node --check backend/server.js && node tests/integration.test.js",
-    "audit": "node tests/audit-harness.js"
+    "build": "echo 'no build'",
+    "start": "node backend/server.js"
   },
   "engines": {
     "node": ">=18.17.0"

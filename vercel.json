@@ -1,15 +1,15 @@
 {
   "version": 2,
   "framework": "nodejs",
-  "buildCommand": "echo 'No build step required'",
+  "buildCommand": "echo 'no build'",
   "outputDirectory": ".",
   "installCommand": "npm install",
+  "regions": [
+    "iad1"
+  ],
   "env": {
     "NODE_ENV": "production",
     "SUPABASE_URL": "https://xjrdfpvtvjzendbyjxbi.supabase.co",
     "SUPABASE_PASSWORD": "Wesla@2025!Strong"
-  },
-  "regions": [
-    "iad1"
-  ]
+  }
 }
