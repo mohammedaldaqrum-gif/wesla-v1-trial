@@ -1,17 +1,17 @@
 {
   "version": 2,
-  "framework": "nodejs",
-  "buildCommand": "echo 'no build'",
-  "outputDirectory": ".",
-  "installCommand": "npm install",
-  "regions": [
-    "iad1"
-  ],
-  "functions": {
-    "backend/server.js": {
-      "maxDuration": 10
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
+  ],
   "env": {
     "NODE_ENV": "production",
     "SUPABASE_URL": "https://xjrdfpvtvjzendbyjxbi.supabase.co",

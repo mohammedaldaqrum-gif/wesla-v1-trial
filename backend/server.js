@@ -15,11 +15,12 @@ const PRIVATE_UPLOADS = path.join(ROOT, 'private_uploads', 'passports');
 const PRIVATE_RECEIPTS = path.join(ROOT, 'private_uploads', 'payment_receipts');
 const PRIVATE_PROFILE_PHOTOS = path.join(ROOT, 'private_uploads', 'profile_photos');
 const BACKUP_DIR = path.join(ROOT, 'backups');
-fs.mkdirSync(UPLOADS, { recursive: true });
-fs.mkdirSync(PRIVATE_UPLOADS, { recursive: true });
-fs.mkdirSync(PRIVATE_RECEIPTS, { recursive: true });
-fs.mkdirSync(PRIVATE_PROFILE_PHOTOS, { recursive: true });
-fs.mkdirSync(BACKUP_DIR, { recursive: true });
+const safeMkdir = (p) => { try { fs.mkdirSync(p, { recursive: true }); } catch {} };
+safeMkdir(UPLOADS);
+safeMkdir(PRIVATE_UPLOADS);
+safeMkdir(PRIVATE_RECEIPTS);
+safeMkdir(PRIVATE_PROFILE_PHOTOS);
+safeMkdir(BACKUP_DIR);
 // PostgreSQL/Supabase connection
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://xjrdfpvtvjzendbyjxbi.supabase.co';
 const SUPABASE_PASSWORD = process.env.SUPABASE_PASSWORD || 'Wesla@2025!Strong';
@@ -298,9 +299,9 @@ const hashFile = (dataUrl, folder, prefix) => {
     (ext==='jpg' && b[0]===0xff && b[1]===0xd8 && b[2]===0xff) ||
     (ext==='webp' && b.toString('ascii',0,4)==='RIFF' && b.toString('ascii',8,12)==='WEBP');
   if (!signatureOk) bad('محتوى الصورة لا يطابق نوع الملف');
-  fs.mkdirSync(folder,{recursive:true});
+  try { fs.mkdirSync(folder,{recursive:true}); } catch {}
   const name = prefix + '-' + crypto.randomBytes(12).toString('hex') + '.' + ext;
-  fs.writeFileSync(path.join(folder,name),b,{flag:'wx'});
+  try { fs.writeFileSync(path.join(folder,name),b,{flag:'wx'}); } catch (e) { return ''; }
   return name;
 };
 const imageData = (file, folder) => {
