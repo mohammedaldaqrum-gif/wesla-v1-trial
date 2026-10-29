@@ -1,18 +1,15 @@
 {
   "version": 2,
-  "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
+  "framework": "nodejs",
+  "buildCommand": "echo 'No build step required'",
+  "outputDirectory": ".",
   "installCommand": "npm install",
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "SUPABASE_URL": "https://xjrdfpvtvjzendbyjxbi.supabase.co",
+    "SUPABASE_PASSWORD": "Wesla@2025!Strong"
   },
   "regions": [
     "iad1"
-  ],
-  "functions": {
-    "app/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }

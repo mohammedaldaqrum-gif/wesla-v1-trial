@@ -3,7 +3,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { DatabaseSync } = require('node:sqlite');
+const { Pool } = require('pg');
 const os = require('node:os');
 
 const PORT = Number(process.env.PORT || 3000);
@@ -20,9 +20,51 @@ fs.mkdirSync(PRIVATE_UPLOADS, { recursive: true });
 fs.mkdirSync(PRIVATE_RECEIPTS, { recursive: true });
 fs.mkdirSync(PRIVATE_PROFILE_PHOTOS, { recursive: true });
 fs.mkdirSync(BACKUP_DIR, { recursive: true });
-const DB_PATH = path.join(ROOT, 'wesla_v4_8.db');
-const db = new DatabaseSync(DB_PATH);
-db.exec('PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;');
+// PostgreSQL/Supabase connection
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://xjrdfpvtvjzendbyjxbi.supabase.co';
+const SUPABASE_PASSWORD = process.env.SUPABASE_PASSWORD || 'Wesla@2025!Strong';
+
+// Use direct PostgreSQL connection
+const pool = new Pool({
+  connectionString: `postgresql://postgres:${SUPABASE_PASSWORD}@db.xjrdfpvtvjzendbyjxbi.supabase.co:5432/postgres`,
+  ssl: { rejectUnauthorized: false }
+});
+
+const DB = {
+  prepare: (sql, params) => {
+    return {
+      get: async (...args) => {
+        const client = await pool.connect();
+        try {
+          const result = await client.query(sql, args);
+          return result.rows[0] || null;
+        } finally {
+          client.release();
+        }
+      },
+      all: async (...args) => {
+        const client = await pool.connect();
+        try {
+          const result = await client.query(sql, args);
+          return result.rows;
+        } finally {
+          client.release();
+        }
+      },
+      run: async (...args) => {
+        const client = await pool.connect();
+        try {
+          const result = await client.query(sql, args);
+          return { changes: result.rowCount };
+        } finally {
+          client.release();
+        }
+      }
+    };
+  }
+};
+const db = DB; // Using PostgreSQL via Supabase
+// PostgreSQL is always WAL-enabled and enforces foreign keys by default
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS users (
